@@ -1,0 +1,8 @@
+lr: 0.0001
+nepoch: 100
+batchSize: 32
+imageSize: 64
+start_epoch: 0
+dataset_root: "/data"
+model_name: "VAE_STL10"
+load_checkpoint: True
