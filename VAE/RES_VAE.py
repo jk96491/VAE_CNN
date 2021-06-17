@@ -47,9 +47,9 @@ class res_vae(nn.Module):
         loss = self.vae_loss(recon_data, data, mu, logvar)
 
         # Perception loss
-        loss_feature = Utils.feature_loss(data, recon_data, self.feature_extractor)
+       # loss_feature = Utils.feature_loss(data, recon_data, self.feature_extractor)
 
-        loss += loss_feature
+        #loss += loss_feature
 
         self.zero_grad()
         loss.backward()

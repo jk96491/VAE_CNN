@@ -92,7 +92,10 @@ def feature_loss(img, recon_data, feature_extractor):
     loss = 0
     for i in range(len(feature_extractor)):
         if isinstance(feature_extractor[i], GetFeatures):
-            loss += (feature_extractor[i].features[:(img.shape[0])] - feature_extractor[i].features[
-                                                                      (img.shape[0]):]).pow(2).mean()
+            real_feature = feature_extractor[i].features[:(img.shape[0])]
+            recon_feature = feature_extractor[i].features[(img.shape[0]):]
+
+            loss += (real_feature - recon_feature).pow(2).mean()
+
     return loss / (i + 1)
 

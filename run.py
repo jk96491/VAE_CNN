@@ -3,7 +3,7 @@ import torchvision.transforms as T
 import torchvision.utils as vutils
 import os
 from types import SimpleNamespace as SN
-from VAE.RES_VAE import res_vae
+from VQ_VAE.auto_encoder import VQ_VAE
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 import torch.utils.data as data
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     test_images = dataiter.next()[0]
 
     feature_extractor = Utils.get_feature_extractor(device)
-    vae_net = res_vae(channel_in=3, feature_extractor=feature_extractor, lr=args.lr).to(device)
+    vae_net = VQ_VAE(3, 10, lr=args.lr).to(device)
 
     loss_log = []
     Utils.make_safe_dir(save_dir)
@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
 
         with torch.no_grad():
-            recon_data, _, _ = vae_net(test_images.to(device), Train=False)
+            recon_data, _, _ = vae_net(test_images.to(device))
 
             vutils.save_image(torch.cat((torch.sigmoid(recon_data.cpu()), test_images), 2),
                               "%s/%s/%s_%d.png" % (save_dir, "Results", args.model_name, args.imageSize))
